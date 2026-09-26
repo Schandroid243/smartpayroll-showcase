@@ -196,4 +196,8 @@ Ce dépôt présente le projet **SmartPayroll** (documentation et captures, sans
 
 ## 📞 Contact
 
-**Schadrack Ngunza** — [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
+**Schadrack Ngunza**
+
+- Email : [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
+- LinkedIn : [linkedin.com/in/schadrackngunza](https://www.linkedin.com/in/schadrackngunza)
+- GitHub : [@Schandroid243](https://github.com/Schandroid243)
