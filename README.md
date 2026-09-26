@@ -37,6 +37,20 @@ Ce dépôt est un extrait vitrine du projet réel : il illustre la démarche d'i
 
 ---
 
+## 🖼️ Aperçu
+
+| Connexion | Tableau de bord administrateur |
+|---|---|
+| ![Page de connexion](./assets/screenshots/LoginPage.png) | ![Tableau de bord](./assets/screenshots/DashboardAdmin.png) |
+
+| Liste des employés | Pointage sécurisé (photo + GPS) |
+|---|---|
+| ![Liste des employés](./assets/screenshots/EmpList.png) | ![Pointage](./assets/screenshots/AttendanceRecord.png) |
+
+> L'application est accessible en production : **[hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login)**
+
+---
+
 ## 🎯 Problème résolu
 
 | Avant | Avec SmartPayroll |
