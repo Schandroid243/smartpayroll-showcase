@@ -181,6 +181,12 @@ Le code source est privé. Voici l'organisation du dépôt principal, pour donne
 
 ---
 
+## 🛠️ Comment j'ai travaillé
+
+J'ai piloté l'architecture et l'audit : décisions structurantes, priorisation des risques, plan de remédiation phase par phase. Pour l'implémentation, j'ai utilisé des agents IA, en les cadrant tâche par tâche. Chaque changement a ensuite été validé par des tests (y compris contre une vraie base MySQL en CI) et relu avant d'être fusionné. Rien n'est parti en production sur la seule parole d'un outil.
+
+---
+
 ## 📚 Documentation complémentaire
 
 - [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) — la démarche d'audit et de remédiation production-readiness, en détail
