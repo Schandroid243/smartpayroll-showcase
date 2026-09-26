@@ -2,18 +2,22 @@
   <img src="./assets/logo.jpg" alt="SmartPayroll" width="360">
 </p>
 
-<h1 align="center">SmartPayroll — Plateforme SaaS de gestion RH & paie (RDC)</h1>
+<h1 align="center">SmartPayroll — Multi-tenant HR & Payroll SaaS (DR Congo)</h1>
 
 <p align="center">
-  Système de gestion de la paie, des présences et des ressources humaines, conçu pour le contexte réglementaire et opérationnel de la République Démocratique du Congo, et transformé d'un logiciel on-premise mono-poste en une plateforme SaaS multi-tenant.
+  Payroll, attendance and HR management built for the regulatory and operational context of the Democratic Republic of the Congo, and rebuilt from single-site on-premise software into a hosted multi-tenant SaaS platform.
 </p>
 
 <p align="center">
-  <a href="https://hrmanagement-production-5a35.up.railway.app/login"><strong>🌐 Application en production</strong></a>
+  <strong>English</strong> · <a href="./README.fr.md">Français</a>
+</p>
+
+<p align="center">
+  <a href="https://hrmanagement-production-5a35.up.railway.app/login"><strong>🌐 Live app</strong></a>
   &nbsp;·&nbsp;
-  <a href="./docs/CASE-STUDY.md"><strong>📑 Cas d'étude</strong></a>
+  <a href="./docs/CASE-STUDY.md"><strong>📑 Case study</strong></a>
   &nbsp;·&nbsp;
-  <a href="./docs/ARCHITECTURE-SAAS.md"><strong>🏗️ Architecture SaaS</strong></a>
+  <a href="./docs/ARCHITECTURE-SAAS.md"><strong>🏗️ SaaS architecture</strong></a>
 </p>
 
 <p align="center">
@@ -22,79 +26,81 @@
   <img src="https://img.shields.io/badge/React-16-61DAFB?logo=react&logoColor=black" alt="React">
   <img src="https://img.shields.io/badge/MySQL-Sequelize_6-4479A1?logo=mysql&logoColor=white" alt="MySQL">
   <img src="https://img.shields.io/badge/Redis-ioredis-DC382D?logo=redis&logoColor=white" alt="Redis">
-  <img src="https://img.shields.io/badge/BullMQ-jobs_async-red" alt="BullMQ">
+  <img src="https://img.shields.io/badge/BullMQ-async_jobs-red" alt="BullMQ">
   <img src="https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white" alt="CI">
-  <img src="https://img.shields.io/badge/Déployé_sur-Railway-0B0D0E?logo=railway&logoColor=white" alt="Railway">
+  <img src="https://img.shields.io/badge/Deployed_on-Railway-0B0D0E?logo=railway&logoColor=white" alt="Railway">
 </p>
 
 ---
 
-## ⚡ En bref
+## ⚡ At a glance
 
-- **Déployé en production, en phase de commercialisation** : paie, présences et RH pensés pour les entreprises en RDC, hébergé sur Railway.
-- **Migration on-premise → SaaS multi-tenant** : isolation par organisation résolue depuis le JWT, facturation par wallet prépayé rechargé par mobile money.
-- **Audit de production-readiness** : 47 dettes techniques identifiées (dont 6 critiques), toutes closes au terme d'un plan de remédiation en 5 phases.
-- **Tests contre une vraie base** : 147 fichiers de test, CI GitHub Actions en 8 étapes (MySQL/Redis réels, `npm audit`, gitleaks, build Docker).
-
----
-
-## 📖 À propos
-
-**SmartPayroll** automatise deux fonctions à haute friction pour une entreprise en RDC : **le suivi des présences** (avec preuve anti-fraude) et **le calcul de la paie** (avec la fiscalité locale — IPR à barème progressif, CNSS, ONEM, INPP). Le produit a démarré comme un logiciel **on-premise** distribué en binaire (licence chiffrée, MySQL portable) et a été **entièrement repensé en architecture SaaS multi-tenant** hébergée, avec facturation par mobile money — un choix dicté par la réalité du marché local (le prélèvement automatique récurrent n'y est pas fiable ; le mobile money fonctionne en paiement poussé, confirmé par le client à chaque transaction).
-
-Ce dépôt présente le projet sans en exposer le code source : il illustre la démarche d'ingénierie (architecture, sécurité, remédiation méthodique, CI/CD) plutôt que de servir de produit déployable tel quel.
+- **Deployed in production, now in its commercial launch phase**: payroll, attendance and HR designed for businesses in the DRC, hosted on Railway.
+- **On-premise → multi-tenant SaaS migration**: organization isolation resolved from the JWT, billing through a prepaid wallet topped up with mobile money.
+- **Production-readiness audit**: 47 technical debt items found (6 critical), all closed through a 5-phase remediation plan.
+- **Tests against a real database**: 147 test files, an 8-stage GitHub Actions pipeline (real MySQL/Redis, `npm audit`, gitleaks, Docker build).
 
 ---
 
-## 🖼️ Aperçu
+## 📖 About
 
-| Connexion | Tableau de bord administrateur |
+**SmartPayroll** automates two high-friction tasks for companies in the DRC: **attendance tracking** (with anti-fraud proof) and **payroll calculation** (with local taxation: progressive IPR income tax brackets, CNSS, ONEM, INPP). The product started as **on-premise** software shipped as a binary (encrypted license, portable MySQL) and was **fully redesigned as a hosted multi-tenant SaaS**, billed through mobile money. That last choice comes straight from the local market: recurring direct debit isn't reliable there, while mobile money works as a *push* payment the customer confirms for each transaction.
+
+This repository presents the project without exposing its source code. It shows the engineering approach (architecture, security, methodical remediation, CI/CD) rather than a deployable product.
+
+---
+
+## 🖼️ Screenshots
+
+| Login | Admin dashboard |
 |---|---|
-| ![Page de connexion](./assets/screenshots/LoginPage.png) | ![Tableau de bord](./assets/screenshots/DashboardAdmin.png) |
+| ![Login page](./assets/screenshots/LoginPage.png) | ![Dashboard](./assets/screenshots/DashboardAdmin.png) |
 
-| Liste des employés | Pointage sécurisé (photo + GPS) |
+| Employee list | Secure clock-in (photo + GPS) |
 |---|---|
-| ![Liste des employés](./assets/screenshots/EmpList.png) | ![Pointage](./assets/screenshots/AttendanceRecord.png) |
+| ![Employee list](./assets/screenshots/EmpList.png) | ![Clock-in](./assets/screenshots/AttendanceRecord.png) |
 
-> **Démo en ligne :** l'application tourne en production sur [hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login). L'accès se fait par compte : un accès de démonstration sur une organisation de test est disponible sur simple demande (voir [Contact](#-contact)).
+> **Live demo:** the app runs in production at [hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login). Access requires an account: demo credentials on a sandboxed test organization are available on request (see [Contact](#-contact)).
+
+The UI is in French, the working language of the target market.
 
 ---
 
-## 🎯 Problème résolu
+## 🎯 The problem it solves
 
-| Avant | Avec SmartPayroll |
+| Before | With SmartPayroll |
 |---|---|
-| Suivi des présences sur feuille de calcul, falsifiable, sans preuve | Pointage GPS + photo obligatoire + détection de rejeu (hash perceptif), avec file d'attente **offline** pour la connectivité intermittente du terrain |
-| Calcul de paie manuel, sujet à erreur sur les barèmes fiscaux RDC | Moteur de paie automatisé : IPR progressif, heures supplémentaires/déficits avec système de banque d'heures, avances sur salaire plafonnées, bulletins PDF générés à la volée |
-| Un déploiement = un client, licence fichier chiffrée, mise à jour manuelle | SaaS multi-tenant hébergé, isolation stricte par organisation, mise à jour continue |
-| Facturation incompatible avec les moyens de paiement locaux | Wallet prépayé rechargé par mobile money (paiement poussé), pas de prélèvement automatique |
-| Aucune garantie que le code tenait ses promesses en conditions réelles | Suite de tests contre une **vraie base MySQL** (pas seulement des mocks) en CI, gitleaks, npm audit, build Docker — voir [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) |
+| Attendance tracked in spreadsheets, easy to falsify, no proof | GPS clock-in + mandatory photo + replay detection (perceptual hash), with an **offline** queue for intermittent field connectivity |
+| Manual payroll, error-prone on DRC tax brackets | Automated payroll engine: progressive IPR, overtime/shortfall with an hour bank, capped salary advances, payslips generated as PDF on demand |
+| One deployment per customer, encrypted license file, manual updates | Hosted multi-tenant SaaS, strict per-organization isolation, continuous updates |
+| Billing incompatible with local payment methods | Prepaid wallet topped up via mobile money (push payment), no direct debit |
+| No guarantee the code held up under real conditions | Tests run against a **real MySQL database** (not just mocks) in CI, plus gitleaks, npm audit and a Docker build. See [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) |
 
 ---
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-**Présences & anti-fraude**
-- Pointage géolocalisé (comparaison position employé / site autorisé)
-- Photo obligatoire au check-in/check-out, hash perceptif anti-rejeu
-- File d'attente de pointage **offline** (IndexedDB, idempotence par UUID client, résolution des écarts d'horloge par paliers de tolérance)
-- Banque d'heures : heures supplémentaires payées, banquées ou compensant un déficit
+**Attendance & anti-fraud**
+- Geolocated clock-in (employee position checked against the authorized site)
+- Mandatory photo at check-in/check-out, perceptual hash against replays
+- **Offline** clock-in queue (IndexedDB, idempotency through a client-side UUID, tiered tolerance for clock drift)
+- Hour bank: overtime is paid, banked, or used to offset a shortfall
 
-**Paie & conformité RDC**
-- Moteur de calcul avec barème IPR progressif paramétrable, CNSS, ONEM, INPP
-- Avances sur salaire avec plafond (workflow de demande → validation → historique de statuts)
-- Génération de bulletins PDF, jobs de calcul en arrière-plan (BullMQ) pour ne jamais bloquer l'API
-- Report de dette de paie, workflow de régularisation
+**Payroll & DRC compliance**
+- Calculation engine with configurable progressive IPR brackets, CNSS, ONEM, INPP
+- Capped salary advances (request → approval → status history workflow)
+- PDF payslips, background payroll jobs (BullMQ) so the API is never blocked
+- Payroll debt carry-over, correction/adjustment workflow
 
-**RH & organisation**
-- Départements, postes, documents employés, annonces internes
-- Gestion des absences par motif, congés
+**HR & organization**
+- Departments, positions, employee documents, internal announcements
+- Absence management by reason, leave
 
-**SaaS, facturation & plateforme**
-- Multi-tenant strict : isolation par `organizationId` à chaque requête, vérifiée par une matrice de tests d'autorisation (tenant A / B / null) contre une vraie base
-- Wallet prépayé + abonnements avec machine à états (`TRIAL → ACTIVE → PAST_DUE → GRACE_PERIOD → SUSPENDED/CANCELED`)
-- Intégration mobile money via une interface `PaymentProvider` découplée du fournisseur (webhook signé + idempotent, job de réconciliation de secours)
-- Console **Platform Admin** entièrement séparée du tenant (JWT et secret distincts, MFA obligatoire), avec journal d'audit sur chaque action
+**SaaS, billing & platform**
+- Strict multi-tenancy: `organizationId` isolation on every request, verified by an authorization test matrix (tenant A / B / null) against a real database
+- Prepaid wallet + subscriptions driven by a state machine (`TRIAL → ACTIVE → PAST_DUE → GRACE_PERIOD → SUSPENDED/CANCELED`)
+- Mobile money integration behind a provider-agnostic `PaymentProvider` interface (signed, idempotent webhooks, with a fallback reconciliation job)
+- **Platform Admin** console fully separated from tenants (distinct JWT and secret, mandatory MFA), with an audit log on every action
 
 ---
 
@@ -102,101 +108,101 @@ Ce dépôt présente le projet sans en exposer le code source : il illustre la d
 
 ```mermaid
 graph TD
-    Client["Client React (SPA)"] -->|HTTP/JWT| App["Express — app.js"]
-    App --> Auth["withAuth.js — resolveTenant depuis le JWT"]
+    Client["React client (SPA)"] -->|HTTP/JWT| App["Express — app.js"]
+    App --> Auth["withAuth.js — resolveTenant from the JWT"]
     App --> Router["routes/api.js"]
-    Router --> Valid["Validation Joi"]
-    Router --> Ctrl["Contrôleurs"]
-    Ctrl --> Svc["Services métier<br/>(Payroll, Advance, Wallet, Entitlement)"]
-    Ctrl --> Models["Modèles Sequelize"]
+    Router --> Valid["Joi validation"]
+    Router --> Ctrl["Controllers"]
+    Ctrl --> Svc["Domain services<br/>(Payroll, Advance, Wallet, Entitlement)"]
+    Ctrl --> Models["Sequelize models"]
     Models --> DB[("MySQL")]
     Ctrl --> Cache[("Redis<br/>cache + rate-limit")]
     Ctrl -->|enqueue| Queue["BullMQ"]
-    Queue --> Worker["Service worker dédié<br/>(worker.js)"]
+    Queue --> Worker["Dedicated worker service<br/>(worker.js)"]
     Worker --> DB
-    Worker --> Domain["domain/ — calcul de paie, PDF"]
+    Worker --> Domain["domain/ — payroll calculation, PDF"]
 ```
 
-- **Monolithe modulaire** assumé (pas de microservices) : une seule base de code, un seul pipeline de déploiement, cohérent avec une équipe restreinte — la séparation se fait par **modules et responsabilités**, pas par des frontières réseau.
-- **Deux services de déploiement distincts issus de la même image** : `web` (API Express + build React statique) et `worker` (consommateurs BullMQ uniquement, aucun port HTTP exposé) — scalables indépendamment, sans double traitement des jobs (déduplication BullMQ par `jobId`).
-- **Pattern MVC + Services + Repository partiel** : les contrôleurs orchestrent, les services encapsulent la logique métier transverse (paie, wallet, avances), un repository partiel isole l'accès aux données pour les entités les plus sensibles.
-- **Isolation multi-tenant** : `organizationId` résolu depuis le JWT (jamais depuis un paramètre client), propagé et vérifié dans chaque requête — prouvé par une suite de tests contre une vraie base plutôt que par une simple relecture de code.
+- **Modular monolith**, on purpose (no microservices): one codebase, one deployment pipeline, a good fit for a small team. Separation happens through **modules and responsibilities**, not network boundaries.
+- **Two deployment services built from the same image**: `web` (Express API + static React build) and `worker` (BullMQ consumers only, no HTTP port). They scale independently, and jobs are never processed twice (BullMQ deduplication by `jobId`).
+- **MVC + Services + partial Repository**: controllers orchestrate, services hold cross-cutting business logic (payroll, wallet, advances), and a partial repository isolates data access for the most sensitive entities.
+- **Multi-tenant isolation**: `organizationId` is resolved from the JWT (never from a client parameter), then propagated and checked on every request. This is proven by tests against a real database, not just by code review.
 
 ---
 
-## 🧠 Choix techniques marquants
+## 🧠 Notable technical decisions
 
-Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour comprendre le niveau de rigueur du projet :
+A few decisions worth explaining, because they show how the project was approached:
 
-- **Facturation par wallet prépayé, pas par prélèvement récurrent.** Le mobile money en RDC est un paiement *poussé* : le client confirme chaque transaction. Un modèle de facturation calqué sur les habitudes occidentales (carte + débit automatique) n'aurait tout simplement pas fonctionné sur ce marché.
-- **`attemptSubscriptionDebitOrReactivation` comme point de verrouillage unique.** Toute opération qui doit verrouiller à la fois un abonnement et un wallet passe par une seule fonction, dans un ordre de verrouillage garanti *structurellement* (jamais laissé à la discipline de chaque site d'appel) — élimine une classe entière de deadlocks potentiels.
-- **Archivage applicatif plutôt que partitionnement MySQL natif.** Partitionner `attendance_record`/`audit_log` aurait exigé de changer leur clé primaire (la colonne de partition doit figurer dans toute clé unique) — un changement de schéma jugé trop risqué sans pouvoir le valider contre un jeu de données de production. Un archivage vers des tables miroir (`CREATE TABLE ... LIKE`) offre un gain équivalent avec un risque largement inférieur.
-- **Migrations idempotentes par construction.** Chaque migration vérifie l'état du schéma avant de le modifier (`describeTable`/`showIndex`/`tableExists`) — la chaîne complète peut être rejouée sans erreur sur une base vierge *ou* déjà partiellement migrée, un prérequis pour un déploiement continu fiable.
-- **Deux JWT, deux secrets, deux audiences.** Le token d'un administrateur d'organisation (`aud: "tenant"`) et celui d'un opérateur de la plateforme (`aud: "platform"`) ne sont jamais interchangeables — testé explicitement, pas seulement supposé.
-- **Pointage offline avec résolution d'horloge à paliers.** Plutôt qu'un seuil binaire accepté/rejeté, un écart d'horloge entre le client et le serveur est traité en trois paliers (silencieux / à valider manuellement / exclu de la paie jusqu'à validation) — pour ne jamais faire perdre une journée de salaire à un employé réellement présent à cause d'un bug d'horloge.
-- **Suppression directe du code mort, jamais commenté « au cas où ».** Git est l'historique ; un commentaire expliquant *pourquoi* on a supprimé pollue la lecture du fichier vivant bien plus qu'il ne rassure.
-
----
-
-## 🔐 Sécurité
-
-- Isolation tenant vérifiée par des tests d'autorisation paramétrés (A / B / null) contre une vraie base, pas seulement des mocks
-- JWT à courte durée de vie + rotation des refresh tokens, révocation immédiate à la désactivation d'un compte
-- Helmet (CSP/HSTS), CORS en liste blanche, rate-limiting distribué via Redis
-- Téléchargements de fichiers authentifiés et scopés par organisation/rôle (jamais de stockage statique public pour des données RH)
-- Webhooks de paiement : signature vérifiée **avant** tout traitement, idempotence garantie par contrainte d'unicité
-- Scan de secrets (gitleaks) et audit de dépendances (`npm audit`) intégrés à chaque exécution de CI
+- **Prepaid wallet billing instead of recurring debit.** Mobile money in the DRC is a *push* payment: the customer confirms each transaction. A billing model copied from Western habits (card + automatic debit) simply wouldn't work in this market.
+- **`attemptSubscriptionDebitOrReactivation` as the single locking point.** Any operation that needs to lock both a subscription and a wallet goes through one function, with a lock order guaranteed *structurally* (never left to the discipline of each call site). That removes a whole class of potential deadlocks.
+- **Application-level archiving instead of native MySQL partitioning.** Partitioning `attendance_record`/`audit_log` would have meant changing their primary key (the partition column must be part of every unique key). That schema change was too risky without validating it against a production-sized dataset. Archiving into mirror tables (`CREATE TABLE ... LIKE`) delivers a similar gain at much lower risk.
+- **Idempotent migrations by design.** Each migration checks the schema state before changing it (`describeTable`/`showIndex`/`tableExists`), so the full chain can be replayed on an empty *or* partially migrated database. That's a prerequisite for reliable continuous deployment.
+- **Two JWTs, two secrets, two audiences.** A tenant admin token (`aud: "tenant"`) and a platform operator token (`aud: "platform"`) are never interchangeable. This is tested explicitly, not assumed.
+- **Offline clock-in with tiered clock-drift handling.** Instead of a binary accept/reject threshold, drift between client and server clocks falls into three tiers (silent / needs manual review / excluded from payroll until approved), so an employee who was actually present never loses a day's pay because of a clock bug.
+- **Dead code gets deleted, never commented out "just in case".** Git is the history; a comment explaining *why* something was removed clutters the living file far more than it reassures anyone.
 
 ---
 
-## 🧪 Qualité, tests & CI/CD
+## 🔐 Security
 
-- **147 fichiers de test**, unitaires *et* d'intégration contre une vraie base MySQL (pas seulement des mocks Sequelize) — la matrice d'autorisation multi-tenant, en particulier, ne pouvait être prouvée que contre un moteur SQL réel.
-- **Pipeline CI en 8 étapes** (GitHub Actions) : lint + vérification de types (JSDoc/`@ts-check` progressif), tests unitaires + d'intégration, tests client React, suites contre une vraie base MySQL/Redis, audit de sécurité npm, détection de secrets (gitleaks), build de l'image Docker de production, build du frontend.
-- Avant la mise en production, j'ai mené un **audit de production-readiness** du projet, qui a identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
+- Tenant isolation verified by parameterized authorization tests (A / B / null) against a real database, not just mocks
+- Short-lived JWTs + refresh token rotation, immediate revocation when an account is disabled
+- Helmet (CSP/HSTS), allow-listed CORS, Redis-backed distributed rate limiting
+- File downloads authenticated and scoped by organization/role (HR data is never served from public static storage)
+- Payment webhooks: signature checked **before** any processing, idempotency enforced by a unique constraint
+- Secret scanning (gitleaks) and dependency audit (`npm audit`) on every CI run
 
 ---
 
-## 📂 Structure du projet
+## 🧪 Quality, testing & CI/CD
 
-Le code source est privé. Voici l'organisation du dépôt principal, pour donner une idée du découpage :
+- **147 test files**, unit *and* integration tests against a real MySQL database (not just Sequelize mocks). The multi-tenant authorization matrix in particular could only be proven against a real SQL engine.
+- **8-stage CI pipeline** (GitHub Actions): lint + type checking (progressive JSDoc/`@ts-check`), unit + integration tests, React client tests, suites against real MySQL/Redis, npm security audit, secret detection (gitleaks), production Docker image build, frontend build.
+- Before going to production, I ran a **production-readiness audit** of the project. It found 47 technical debt items (6 critical, 17 major), all resolved through a 5-phase remediation plan. The full story, with numbers, is in a separate case study: **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
+
+---
+
+## 📂 Project structure
+
+The source code is private. Here is how the main repository is organized, to give an idea of the layout:
 
 ```
 .
-├── server.js / worker.js   # Points d'entrée : API HTTP / consommateurs BullMQ
-├── app.js                  # Application Express (middlewares, routage)
-├── controllers/            # Logique métier par entité (CRUD Sequelize)
-├── services/               # Services transverses (paie, avances, wallet, entitlements)
-├── domain/                 # Calcul de paie et génération PDF
-├── repository/             # Accès aux données pour les entités sensibles
-├── models/                 # Modèles Sequelize + associations
-├── migrations/             # Migrations idempotentes
-├── workers/                # Consommateurs BullMQ (paie, billing, archivage, rétention)
+├── server.js / worker.js   # Entry points: HTTP API / BullMQ consumers
+├── app.js                  # Express app (middlewares, routing)
+├── controllers/            # Per-entity business logic (Sequelize CRUD)
+├── services/               # Cross-cutting services (payroll, advances, wallet, entitlements)
+├── domain/                 # Payroll calculation and PDF generation
+├── repository/             # Data access for sensitive entities
+├── models/                 # Sequelize models + associations
+├── migrations/             # Idempotent migrations
+├── workers/                # BullMQ consumers (payroll, billing, archiving, retention)
 ├── middlewares/            # Auth, upload, feature flags
-├── validators/             # Schémas Joi
-├── __tests__/              # Tests unitaires + intégration (vraie base)
-├── client/                 # Frontend React (SPA)
+├── validators/             # Joi schemas
+├── __tests__/              # Unit + integration tests (real database)
+├── client/                 # React frontend (SPA)
 └── doc/                    # Architecture, audits, runbooks
 ```
 
 ---
 
-## 🛠️ Comment j'ai travaillé
+## 🛠️ How I worked
 
-J'ai piloté l'architecture et l'audit : décisions structurantes, priorisation des risques, plan de remédiation phase par phase. Pour l'implémentation, j'ai utilisé des agents IA, en les cadrant tâche par tâche. Chaque changement a ensuite été validé par des tests (y compris contre une vraie base MySQL en CI) et relu avant d'être fusionné. Rien n'est parti en production sur la seule parole d'un outil.
-
----
-
-## 📚 Documentation complémentaire
-
-- [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) — la démarche d'audit et de remédiation production-readiness, en détail
-- [`docs/ARCHITECTURE-SAAS.md`](./docs/ARCHITECTURE-SAAS.md) — transformation SaaS multi-tenant : décisions d'architecture, modèle de facturation, sécurité plateforme
+I led the architecture and the audit: key design decisions, risk prioritization, and the phase-by-phase remediation plan. For implementation, I used AI agents, scoping their work task by task. Every change was then validated by tests (including against a real MySQL database in CI) and reviewed before being merged. Nothing shipped to production on a tool's word alone.
 
 ---
 
-## ⚠️ À propos de ce dépôt vitrine
+## 📚 Further reading
 
-Ce dépôt présente le projet **SmartPayroll** (documentation et captures, sans le code source), pour illustrer une démarche d'ingénierie (architecture SaaS, sécurité multi-tenant, remédiation méthodique, rigueur de test/CI) sur un domaine métier réel et complexe (paie et RH en contexte RDC). Aucune donnée de production, secret ou identifiant client n'y figure.
+- [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) — the production-readiness audit and remediation, in detail
+- [`docs/ARCHITECTURE-SAAS.md`](./docs/ARCHITECTURE-SAAS.md) — the multi-tenant SaaS transformation: architecture decisions, billing model, platform security
+
+---
+
+## ⚠️ About this showcase repository
+
+This repository presents the **SmartPayroll** project (documentation and screenshots, no source code) to illustrate an engineering approach (SaaS architecture, multi-tenant security, methodical remediation, rigorous testing/CI) on a real and complex business domain (payroll and HR in the DRC). It contains no production data, secrets or customer identifiers.
 
 ---
 
@@ -204,6 +210,6 @@ Ce dépôt présente le projet **SmartPayroll** (documentation et captures, sans
 
 **Schadrack Ngunza**
 
-- Email : [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
-- LinkedIn : [linkedin.com/in/schadrackngunza](https://www.linkedin.com/in/schadrackngunza)
-- GitHub : [@Schandroid243](https://github.com/Schandroid243)
+- Email: [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
+- LinkedIn: [linkedin.com/in/schadrackngunza](https://www.linkedin.com/in/schadrackngunza)
+- GitHub: [@Schandroid243](https://github.com/Schandroid243)

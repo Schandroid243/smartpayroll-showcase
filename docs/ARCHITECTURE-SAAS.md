@@ -1,105 +1,107 @@
-# Architecture SaaS — Transformation multi-tenant de SmartPayroll
+# SaaS architecture — Moving SmartPayroll to multi-tenant
 
-> Version condensée, à but de démonstration, du document d'architecture interne. Elle couvre les décisions structurantes de la transformation d'un logiciel on-premise mono-poste en plateforme SaaS multi-tenant hébergée.
+**English** · [Français](./ARCHITECTURE-SAAS.fr.md)
 
-## 1. Le point de départ et la contrainte de marché
+> A condensed, showcase version of the internal architecture document. It covers the key decisions behind turning single-site on-premise software into a hosted multi-tenant SaaS platform.
 
-SmartPayroll était distribué **on-premise** : un binaire par client, une base MySQL locale, une licence chiffrée hors ligne contrôlant l'organisation active. Faire évoluer ce modèle vers un SaaS hébergé posait une question centrale, propre au marché visé : **comment facturer un abonnement récurrent en RDC ?**
+## 1. Starting point and market constraint
 
-La réponse occidentale par défaut — carte bancaire + prélèvement automatique — ne s'applique pas : le mobile money y fonctionne en **paiement poussé** (le client confirme lui-même chaque transaction depuis son téléphone), sans mandat de prélèvement automatique fiable. Cette contrainte a orienté l'ensemble du modèle de facturation, détaillé en §4.
+SmartPayroll was distributed **on-premise**: one binary per customer, a local MySQL database, and an offline encrypted license controlling the active organization. Moving this model to a hosted SaaS raised one central question, specific to the target market: **how do you bill a recurring subscription in the DRC?**
 
-## 2. Décisions d'architecture actées
+The default Western answer (credit card + automatic debit) doesn't apply. Mobile money there works as a **push payment** (customers confirm each transaction themselves from their phone), with no reliable direct debit mandate. This constraint shaped the whole billing model, detailed in §4.
 
-| Décision | Pourquoi | Conséquence |
+## 2. Architecture decisions
+
+| Decision | Why | Consequence |
 |---|---|---|
-| **Monolithe modulaire conservé** — aucune extraction en microservices | Une seule infrastructure à opérer, cohérent avec une équipe restreinte | Les nouveaux modules SaaS (abonnements, wallet, entitlements, admin plateforme) vivent dans le même dépôt, avec les mêmes conventions que le code existant |
-| **Hébergement centralisé (Railway)**, abandon de la distribution de binaires | Le reverse engineering d'un binaire distribué au client est un risque impossible à maîtriser par la seule obfuscation | Le pointage GPS et toutes les fonctionnalités dépendent désormais d'un accès internet réel côté client, plus seulement d'un réseau local |
-| **Facturation par wallet prépayé**, pas par prélèvement récurrent | Cohérent avec le paiement poussé du mobile money local | Le renouvellement d'abonnement débite un solde interne déjà crédité — jamais un compte ou une carte externe |
-| **Stockage objet (S3-compatible)** plutôt que disque local | Un hébergeur PaaS ne garantit pas la persistance d'un disque local à travers les redéploiements ; les preuves de pointage ont une valeur d'audit | Les fichiers (documents RH, preuves de pointage) sont référencés par clé d'objet, jamais par chemin disque |
-| **Séparation stricte Platform Admin / Tenant**, au niveau table, JWT et routes | Empêcher qu'un bug de contrôle d'accès transforme un admin d'organisation en admin de toute la plateforme | Toute route `/api/platform/*` exige un JWT distinct (audience et secret différents) — jamais le même token qu'un client |
-| **Devise de référence CDF** pour le wallet, USD à titre indicatif commercial uniquement | Le mobile money en RDC transacte en CDF ; éviter la complexité d'un double grand-livre multi-devises dès le départ | Le taux de change n'est tracé que pour du reporting interne, jamais pour la logique de débit |
-| **Retrait complet du système de licence locale** une fois confirmée l'absence de déploiement on-premise actif | Plus de code distribué au client = plus besoin de protéger un artefact hors-ligne | La vérification d'accès se fait désormais en base, en temps réel, à chaque requête — sans repli legacy |
+| **Keep a modular monolith**, no microservice extraction | One infrastructure to run, consistent with a small team | The new SaaS modules (subscriptions, wallet, entitlements, platform admin) live in the same repository, with the same conventions as the existing code |
+| **Centralized hosting (Railway)**, no more binary distribution | Reverse engineering of a binary shipped to customers is a risk obfuscation alone can't control | GPS clock-in and every other feature now depend on real internet access on the customer side, not just a local network |
+| **Prepaid wallet billing**, not recurring debit | Matches how local mobile money push payments work | Subscription renewal debits an internal balance that's already been topped up, never an external account or card |
+| **Object storage (S3-compatible)** instead of local disk | A PaaS host doesn't guarantee local disk persistence across redeploys, and clock-in proofs have audit value | Files (HR documents, clock-in proofs) are referenced by object key, never by disk path |
+| **Strict Platform Admin / Tenant separation**, at table, JWT and route level | Prevent an access-control bug from turning an organization admin into an admin of the whole platform | Every `/api/platform/*` route requires a separate JWT (different audience and secret), never the same token as a customer |
+| **CDF as the wallet's reference currency**, USD only as a commercial indication | Mobile money in the DRC transacts in CDF; avoid the complexity of a multi-currency double ledger from day one | The exchange rate is only recorded for internal reporting, never used in debit logic |
+| **Full removal of the local license system** once no active on-premise deployment remained | No more code shipped to customers means no offline artifact to protect | Access checks now happen in the database, in real time, on every request, with no legacy fallback |
 
-## 3. Vue d'ensemble du système cible
+## 3. Target system overview
 
 ```text
-                         Internet (obligatoire désormais)
+                         Internet (now required)
                                     │
                     ┌───────────────┴────────────────┐
-                    │           Un seul projet         │
+                    │          A single project        │
                     │                                  │
    ┌────────────────┼──────────────────────────────────┼───────────────┐
    │                │                                  │               │
    ▼                ▼                                  ▼               ▼
  web             worker                              MySQL           Redis
- (API Express   (BullMQ : paie,                     (managé)        (managé)
-  + build       renouvellement                                          │
-  React         d'abonnement,                                          ├── Cache
-  statique)     webhooks billing,                                       ├── Rate limiting
-                réconciliation)                                        └── File de jobs
+ (Express API   (BullMQ: payroll,                   (managed)       (managed)
+  + static      subscription                                            │
+  React         renewal,                                                ├── Cache
+  build)        billing webhooks,                                       ├── Rate limiting
+                reconciliation)                                         └── Job queue
    │
-   ├── /api/*                        → routes tenant (paie, présences, RH…)
-   ├── /api/wallet/*                 → top-up mobile money, solde, historique
-   ├── /api/webhooks/billing/:provider → callbacks de l'agrégateur mobile money
-   └── /api/platform/*               → réservé à l'opérateur de la plateforme
+   ├── /api/*                          → tenant routes (payroll, attendance, HR…)
+   ├── /api/wallet/*                   → mobile money top-up, balance, history
+   ├── /api/webhooks/billing/:provider → callbacks from the mobile money aggregator
+   └── /api/platform/*                 → reserved for the platform operator
                     │
                     ▼
-        Stockage objet externe (S3-compatible)
-        documents employés, preuves de pointage
+        External object storage (S3-compatible)
+        employee documents, clock-in proofs
 ```
 
-Un seul déploiement, plusieurs organisations. L'isolation est **logique** (modules, tables, routes, `organizationId` propagé depuis le JWT), pas infrastructurelle — un choix de simplicité opérationnelle assumé pour la taille d'équipe et de trafic visée, avec un chemin d'évolution clair si le besoin change (voir §7).
+One deployment, many organizations. Isolation is **logical** (modules, tables, routes, `organizationId` propagated from the JWT), not infrastructural. That's a deliberate choice of operational simplicity for the target team size and traffic, with a clear path forward if needs change (see §8).
 
-## 4. Facturation : wallet prépayé et cycle de vie de l'abonnement
+## 4. Billing: prepaid wallet and subscription lifecycle
 
-Chaque organisation dispose d'un **wallet** (solde interne en CDF) et d'un **abonnement** rattaché à un plan. Le wallet a un **point d'entrée unique** pour toute modification de solde — aucune autre partie du code n'a le droit d'écrire directement dessus, ce qui garantit que chaque mouvement est tracé et cohérent.
+Each organization has a **wallet** (internal balance in CDF) and a **subscription** tied to a plan. The wallet has a **single entry point** for any balance change: no other part of the code may write to it directly, which guarantees that every movement is recorded and consistent.
 
-**Machine à états de l'abonnement :**
+**Subscription state machine:**
 
 ```text
-TRIAL ──────────► ACTIVE       (premier crédit suffisant, débit réussi)
-TRIAL ──────────► CANCELED     (fin d'essai sans paiement, ou résiliation)
+TRIAL ──────────► ACTIVE       (first sufficient top-up, successful debit)
+TRIAL ──────────► CANCELED     (trial ends without payment, or cancellation)
 
-ACTIVE ─────────► PAST_DUE     (solde insuffisant au renouvellement)
-PAST_DUE ───────► ACTIVE       (recharge reçue avant la fin de la période de retard)
-PAST_DUE ───────► GRACE_PERIOD (après un délai de retard non résolu)
-GRACE_PERIOD ───► SUSPENDED    (après un délai de grâce cumulé non résolu)
-SUSPENDED ──────► ACTIVE       (recharge + débit réussi)
+ACTIVE ─────────► PAST_DUE     (insufficient balance at renewal)
+PAST_DUE ───────► ACTIVE       (top-up received before the past-due window ends)
+PAST_DUE ───────► GRACE_PERIOD (after an unresolved past-due delay)
+GRACE_PERIOD ───► SUSPENDED    (after an unresolved cumulative grace delay)
+SUSPENDED ──────► ACTIVE       (top-up + successful debit)
 
-(tout état) ────► CANCELED     (résiliation volontaire)
+(any state) ────► CANCELED     (voluntary cancellation)
 ```
 
-Un accès en lecture seule est maintenu même en `SUSPENDED` — suspendre une organisation ne bloque jamais la consultation de ses propres données, seulement les opérations de création/modification.
+Read-only access is kept even in `SUSPENDED`: suspending an organization never blocks it from viewing its own data, only from creating or modifying it.
 
-La logique de débit et de réactivation est centralisée dans une **fonction unique** qui verrouille l'abonnement puis le wallet, toujours dans cet ordre — garantissant *structurellement* l'absence d'interblocage, plutôt que de compter sur une discipline respectée à chaque site d'appel. Un top-up ordinaire (le cas le plus fréquent) ne verrouille jamais l'abonnement.
+Debit and reactivation logic lives in a **single function** that locks the subscription, then the wallet, always in that order. This guarantees the absence of deadlocks *structurally*, instead of relying on discipline at every call site. A regular top-up (by far the most common case) never locks the subscription.
 
-L'intégration avec l'agrégateur mobile money passe par une **interface commune** (`PaymentProvider`), découplant la logique métier du fournisseur choisi. Chaque webhook entrant est vérifié par signature puis dédupliqué par un identifiant d'événement unique avant tout traitement métier — traité de façon asynchrone, jamais en ligne dans le handler HTTP. Un job de réconciliation périodique complète le dispositif : la fiabilité des webhooks entrants depuis un agrégateur mobile money vers un serveur hébergé hors RDC n'est pas garantie à 100 %, donc le système ne dépend jamais du webhook seul.
+Integration with the mobile money aggregator goes through a **common interface** (`PaymentProvider`), decoupling business logic from the chosen provider. Every incoming webhook is signature-checked, then deduplicated by a unique event ID before any business processing, and handled asynchronously, never inline in the HTTP handler. A periodic reconciliation job completes the setup: webhooks sent from a mobile money aggregator to a server hosted outside the DRC aren't 100% reliable, so the system never depends on the webhook alone.
 
-## 5. Séparation Platform Admin / Tenant
+## 5. Platform Admin / Tenant separation
 
-L'opérateur de la plateforme (super-admin) dispose d'un compte, d'un JWT et d'un secret de signature **entièrement distincts** de ceux des organisations clientes — pas seulement un rôle différent sur le même compte. L'authentification plateforme exige un second facteur (TOTP) dès la création du compte, sans exception. Toute action de modification via les routes plateforme écrit une ligne d'audit **avant** de répondre au client, jamais après coup en tâche de fond.
+The platform operator (super-admin) has an account, a JWT and a signing secret **entirely separate** from those of customer organizations, not just a different role on the same account. Platform authentication requires a second factor (TOTP) from account creation, with no exceptions. Every write action through platform routes records an audit entry **before** responding to the client, never afterwards in a background task.
 
-## 6. Pointage de présence hors ligne
+## 6. Offline attendance tracking
 
-Le pointage se fait depuis le terrain, où la connectivité est intermittente. Le principe : enregistrer l'action **immédiatement côté client** (horodatage capturé à l'instant réel), puis synchroniser en différé sans perte ni doublon.
+Clock-in happens in the field, where connectivity is intermittent. The principle: record the action **immediately on the client** (timestamp captured at the real moment), then sync later with no loss and no duplicates.
 
-- **Idempotence** : chaque pointage en attente porte un identifiant généré côté client, dédupliqué côté serveur.
-- **Horodatage à paliers** : l'écart entre l'horloge du client et celle du serveur est traité en trois niveaux (accepté silencieusement / marqué à valider manuellement / exclu du calcul de paie tant que non validé) plutôt qu'un seuil binaire — pour ne jamais faire perdre une journée de salaire à un employé réellement présent à cause d'un simple bug d'horloge.
-- **Contrôle géographique côté client strictement indicatif** : jamais bloquant, le serveur reste l'autorité finale à la synchronisation.
-- **Distinction erreur transitoire / rejet métier** lors de la synchronisation : une erreur réseau déclenche un nouvel essai avec délai croissant ; un rejet métier (hors zone, déjà pointé) passe immédiatement en état définitif, sans nouvel essai inutile.
+- **Idempotency**: every pending clock-in carries a client-generated ID, deduplicated on the server.
+- **Tiered timestamps**: drift between the client clock and the server clock is handled in three levels (silently accepted / flagged for manual review / excluded from payroll until approved) rather than a binary threshold, so an employee who was actually present never loses a day's pay because of a simple clock bug.
+- **Client-side geographic check is advisory only**: never blocking; the server remains the final authority at sync time.
+- **Transient error vs. business rejection** during sync: a network error triggers a retry with increasing delay; a business rejection (out of zone, already clocked in) immediately becomes final, with no pointless retry.
 
-## 7. Conformité et rétention des données
+## 7. Compliance and data retention
 
-La plateforme traite des données personnelles d'employés sous l'angle du cadre légal RDC applicable à la protection des données. Principe appliqué : toute donnée personnelle est conservée le temps nécessaire à sa finalité, puis anonymisée ou supprimée — jamais indéfiniment sous forme identifiante. Un job récurrent audite les organisations résiliées et applique le cycle export → anonymisation → purge définitive selon des délais paramétrables, avec traçabilité complète de chaque étape.
+The platform processes employee personal data under the DRC's applicable data protection framework. The principle: personal data is kept only as long as its purpose requires, then anonymized or deleted, never kept indefinitely in identifiable form. A recurring job audits canceled organizations and applies the export → anonymization → final purge cycle according to configurable delays, with full traceability of each step.
 
-## 8. Ce qui est délibérément hors périmètre pour l'instant
+## 8. Deliberately out of scope for now
 
-Certaines évolutions ont été identifiées mais volontairement repoussées, faute de besoin réel démontré à l'échelle actuelle : agrégats journaliers matérialisés pour le tableau de bord plateforme, traçage distribué (les métriques agrégées suffisent en l'état), présence en temps réel par organisation. Une architecture SaaS ne se juge pas seulement à ce qu'elle construit, mais aussi à ce qu'elle choisit consciemment de ne pas construire avant d'en avoir la preuve du besoin.
-
----
-
-*Ce document est une version condensée, à but de démonstration, de la documentation d'architecture interne du projet.*
+Some improvements were identified but intentionally postponed, for lack of a proven need at the current scale: materialized daily aggregates for the platform dashboard, distributed tracing (aggregate metrics are enough for now), real-time presence per organization. A SaaS architecture isn't judged only by what it builds, but also by what it consciously chooses not to build until the need is proven.
 
 ---
 
-← [Retour au README](../README.md)
+*This document is a condensed, showcase version of the project's internal architecture documentation.*
+
+---
+
+← [Back to the README](../README.md)
