@@ -153,7 +153,7 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 
 - **147 fichiers de test**, unitaires *et* d'intégration contre une vraie base MySQL (pas seulement des mocks Sequelize) — la matrice d'autorisation multi-tenant, en particulier, ne pouvait être prouvée que contre un moteur SQL réel.
 - **Pipeline CI en 8 étapes** (GitHub Actions) : lint + vérification de types (JSDoc/`@ts-check` progressif), tests unitaires + d'intégration, tests client React, suites contre une vraie base MySQL/Redis, audit de sécurité npm, détection de secrets (gitleaks), build de l'image Docker de production, build du frontend.
-- Le projet a fait l'objet d'un **audit de production-readiness** structuré (posture « Staff Engineer avant mise en production d'un SaaS multi-tenant ») ayant identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
+- Avant la mise en production, j'ai mené un **audit de production-readiness** du projet, qui a identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
 
 ---
 
