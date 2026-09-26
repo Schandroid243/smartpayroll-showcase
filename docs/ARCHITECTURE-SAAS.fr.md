@@ -50,7 +50,7 @@ La réponse occidentale par défaut — carte bancaire + prélèvement automatiq
         documents employés, preuves de pointage
 ```
 
-Un seul déploiement, plusieurs organisations. L'isolation est **logique** (modules, tables, routes, `organizationId` propagé depuis le JWT), pas infrastructurelle — un choix de simplicité opérationnelle assumé pour la taille d'équipe et de trafic visée, avec un chemin d'évolution clair si le besoin change (voir §7).
+Un seul déploiement, plusieurs organisations. L'isolation est **logique** (modules, tables, routes, `organizationId` propagé depuis le JWT), pas infrastructurelle — un choix de simplicité opérationnelle assumé pour la taille d'équipe et de trafic visée, avec un chemin d'évolution clair si le besoin change (voir §8).
 
 ## 4. Facturation : wallet prépayé et cycle de vie de l'abonnement
 
