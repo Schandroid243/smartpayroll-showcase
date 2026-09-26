@@ -99,3 +99,7 @@ Certaines évolutions ont été identifiées mais volontairement repoussées, fa
 ---
 
 *Ce document est une version condensée, à but de démonstration, de la documentation d'architecture interne du projet.*
+
+---
+
+← [Retour au README](../README.md)
