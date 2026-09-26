@@ -8,7 +8,7 @@ L'objectif est devenu de transformer ce produit en **plateforme SaaS multi-tenan
 
 ## La démarche : un audit avant la mise en production
 
-Avant tout déploiement multi-tenant réel, le projet a fait l'objet d'un **audit de production-readiness** structuré, avec la posture suivante : *« Staff Engineer chargé du feu vert avant mise en production d'un SaaS multi-tenant, potentiellement des milliers d'utilisateurs, maintenance pluriannuelle. »*
+Avant tout déploiement multi-tenant réel, j'ai mené un **audit de production-readiness** complet du projet. La question posée était simple : ce système peut-il accueillir plusieurs organisations, potentiellement des milliers d'utilisateurs, et être maintenu pendant plusieurs années ?
 
 Cet audit a couvert : l'architecture, le code, la sécurité, le modèle de données, la performance, les tests, le CI/CD, l'observabilité, le frontend, les workflows métier critiques, et l'historique Git — avec une règle explicite : **ne jamais présumer qu'un point non vérifiable (absence de base MySQL réelle disponible au moment de l'audit, par exemple) était correct.**
 

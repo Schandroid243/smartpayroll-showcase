@@ -31,7 +31,7 @@
 
 ## ⚡ En bref
 
-- **Produit réel, en production** : paie, présences et RH pour des entreprises en RDC, hébergé sur Railway.
+- **Déployé en production, en phase de commercialisation** : paie, présences et RH pensés pour les entreprises en RDC, hébergé sur Railway.
 - **Migration on-premise → SaaS multi-tenant** : isolation par organisation résolue depuis le JWT, facturation par wallet prépayé rechargé par mobile money.
 - **Audit de production-readiness** : 47 dettes techniques identifiées (dont 6 critiques), toutes closes au terme d'un plan de remédiation en 5 phases.
 - **Tests contre une vraie base** : 147 fichiers de test, CI GitHub Actions en 8 étapes (MySQL/Redis réels, `npm audit`, gitleaks, build Docker).
@@ -42,7 +42,7 @@
 
 **SmartPayroll** automatise deux fonctions à haute friction pour une entreprise en RDC : **le suivi des présences** (avec preuve anti-fraude) et **le calcul de la paie** (avec la fiscalité locale — IPR à barème progressif, CNSS, ONEM, INPP). Le produit a démarré comme un logiciel **on-premise** distribué en binaire (licence chiffrée, MySQL portable) et a été **entièrement repensé en architecture SaaS multi-tenant** hébergée, avec facturation par mobile money — un choix dicté par la réalité du marché local (le prélèvement automatique récurrent n'y est pas fiable ; le mobile money fonctionne en paiement poussé, confirmé par le client à chaque transaction).
 
-Ce dépôt est un extrait vitrine du projet réel : il illustre la démarche d'ingénierie (architecture, sécurité, remédiation méthodique, CI/CD) plutôt que de servir de produit déployable tel quel.
+Ce dépôt présente le projet sans en exposer le code source : il illustre la démarche d'ingénierie (architecture, sécurité, remédiation méthodique, CI/CD) plutôt que de servir de produit déployable tel quel.
 
 ---
 
@@ -56,7 +56,7 @@ Ce dépôt est un extrait vitrine du projet réel : il illustre la démarche d'i
 |---|---|
 | ![Liste des employés](./assets/screenshots/EmpList.png) | ![Pointage](./assets/screenshots/AttendanceRecord.png) |
 
-> L'application est accessible en production : **[hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login)**
+> **Démo en ligne :** l'application tourne en production sur [hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login). L'accès se fait par compte : un accès de démonstration sur une organisation de test est disponible sur simple demande (voir [Contact](#-contact)).
 
 ---
 
@@ -153,7 +153,7 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 
 - **147 fichiers de test**, unitaires *et* d'intégration contre une vraie base MySQL (pas seulement des mocks Sequelize) — la matrice d'autorisation multi-tenant, en particulier, ne pouvait être prouvée que contre un moteur SQL réel.
 - **Pipeline CI en 8 étapes** (GitHub Actions) : lint + vérification de types (JSDoc/`@ts-check` progressif), tests unitaires + d'intégration, tests client React, suites contre une vraie base MySQL/Redis, audit de sécurité npm, détection de secrets (gitleaks), build de l'image Docker de production, build du frontend.
-- Le projet a fait l'objet d'un **audit de production-readiness** structuré (posture « Staff Engineer avant mise en production d'un SaaS multi-tenant ») ayant identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
+- Avant la mise en production, j'ai mené un **audit de production-readiness** du projet, qui a identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
 
 ---
 
@@ -181,21 +181,9 @@ Le code source est privé. Voici l'organisation du dépôt principal, pour donne
 
 ---
 
-## 🚀 Démarrage rapide (développement)
+## 🛠️ Comment j'ai travaillé
 
-Commandes utilisées sur le dépôt principal (non incluses dans cette vitrine) :
-
-```bash
-npm ci                       # dépendances backend
-npm run client-install       # dépendances frontend
-
-npm run server                # API (nodemon, port par défaut)
-npm run worker                # consommateurs BullMQ (nécessite Redis)
-npm run client                 # frontend React (proxy vers l'API)
-
-npm test                      # suite de tests complète
-npm run lint                  # ESLint
-```
+J'ai piloté l'architecture et l'audit : décisions structurantes, priorisation des risques, plan de remédiation phase par phase. Pour l'implémentation, j'ai utilisé des agents IA, en les cadrant tâche par tâche. Chaque changement a ensuite été validé par des tests (y compris contre une vraie base MySQL en CI) et relu avant d'être fusionné. Rien n'est parti en production sur la seule parole d'un outil.
 
 ---
 
@@ -208,10 +196,14 @@ npm run lint                  # ESLint
 
 ## ⚠️ À propos de ce dépôt vitrine
 
-Ce dépôt est un extrait à but de démonstration du projet réel **SmartPayroll**, destiné à illustrer une démarche d'ingénierie (architecture SaaS, sécurité multi-tenant, remédiation méthodique, rigueur de test/CI) sur un domaine métier réel et complexe (paie et RH en contexte RDC). Aucune donnée de production, secret ou identifiant client n'y figure.
+Ce dépôt présente le projet **SmartPayroll** (documentation et captures, sans le code source), pour illustrer une démarche d'ingénierie (architecture SaaS, sécurité multi-tenant, remédiation méthodique, rigueur de test/CI) sur un domaine métier réel et complexe (paie et RH en contexte RDC). Aucune donnée de production, secret ou identifiant client n'y figure.
 
 ---
 
 ## 📞 Contact
 
-**Schadrack Ngunza** — [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
+**Schadrack Ngunza**
+
+- Email : [schadrackngunza@gmail.com](mailto:schadrackngunza@gmail.com)
+- LinkedIn : [linkedin.com/in/schadrackngunza](https://www.linkedin.com/in/schadrackngunza)
+- GitHub : [@Schandroid243](https://github.com/Schandroid243)
