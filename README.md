@@ -56,7 +56,7 @@ Ce dépôt présente le projet sans en exposer le code source : il illustre la d
 |---|---|
 | ![Liste des employés](./assets/screenshots/EmpList.png) | ![Pointage](./assets/screenshots/AttendanceRecord.png) |
 
-> L'application est accessible en production : **[hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login)**
+> **Démo en ligne :** l'application tourne en production sur [hrmanagement-production-5a35.up.railway.app](https://hrmanagement-production-5a35.up.railway.app/login). L'accès se fait par compte : un accès de démonstration sur une organisation de test est disponible sur simple demande (voir [Contact](#-contact)).
 
 ---
 
