@@ -1,5 +1,7 @@
 # Cas d'étude — D'un logiciel on-premise à un SaaS multi-tenant prêt pour la production
 
+[English](./CASE-STUDY.md) · **Français**
+
 ## Contexte
 
 SmartPayroll a démarré comme un logiciel de paie **on-premise** : un binaire distribué au client (via `pkg`), une base MySQL portable installée localement, et une licence chiffrée hors ligne (AES-256-CBC) contrôlant l'organisation active et la durée de validité. Ce modèle fonctionnait pour un client à la fois, mais ne pouvait pas scaler : chaque nouveau client exigeait une installation manuelle, une mise à jour manuelle, et le code métier voyageait physiquement chez le client (surface d'attaque pour le reverse engineering).
@@ -70,4 +72,4 @@ Chacun de ces bugs a été diagnostiqué à partir des logs bruts de CI, corrig�
 
 ---
 
-← [Retour au README](../README.md)
+← [Retour au README](../README.fr.md)

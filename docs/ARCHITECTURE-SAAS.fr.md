@@ -1,5 +1,7 @@
 # Architecture SaaS — Transformation multi-tenant de SmartPayroll
 
+[English](./ARCHITECTURE-SAAS.md) · **Français**
+
 > Version condensée, à but de démonstration, du document d'architecture interne. Elle couvre les décisions structurantes de la transformation d'un logiciel on-premise mono-poste en plateforme SaaS multi-tenant hébergée.
 
 ## 1. Le point de départ et la contrainte de marché
@@ -102,4 +104,4 @@ Certaines évolutions ont été identifiées mais volontairement repoussées, fa
 
 ---
 
-← [Retour au README](../README.md)
+← [Retour au README](../README.fr.md)

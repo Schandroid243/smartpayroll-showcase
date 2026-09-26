@@ -9,11 +9,15 @@
 </p>
 
 <p align="center">
+  <a href="./README.md">English</a> · <strong>Français</strong>
+</p>
+
+<p align="center">
   <a href="https://hrmanagement-production-5a35.up.railway.app/login"><strong>🌐 Application en production</strong></a>
   &nbsp;·&nbsp;
-  <a href="./docs/CASE-STUDY.md"><strong>📑 Cas d'étude</strong></a>
+  <a href="./docs/CASE-STUDY.fr.md"><strong>📑 Cas d'étude</strong></a>
   &nbsp;·&nbsp;
-  <a href="./docs/ARCHITECTURE-SAAS.md"><strong>🏗️ Architecture SaaS</strong></a>
+  <a href="./docs/ARCHITECTURE-SAAS.fr.md"><strong>🏗️ Architecture SaaS</strong></a>
 </p>
 
 <p align="center">
@@ -68,7 +72,7 @@ Ce dépôt présente le projet sans en exposer le code source : il illustre la d
 | Calcul de paie manuel, sujet à erreur sur les barèmes fiscaux RDC | Moteur de paie automatisé : IPR progressif, heures supplémentaires/déficits avec système de banque d'heures, avances sur salaire plafonnées, bulletins PDF générés à la volée |
 | Un déploiement = un client, licence fichier chiffrée, mise à jour manuelle | SaaS multi-tenant hébergé, isolation stricte par organisation, mise à jour continue |
 | Facturation incompatible avec les moyens de paiement locaux | Wallet prépayé rechargé par mobile money (paiement poussé), pas de prélèvement automatique |
-| Aucune garantie que le code tenait ses promesses en conditions réelles | Suite de tests contre une **vraie base MySQL** (pas seulement des mocks) en CI, gitleaks, npm audit, build Docker — voir [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) |
+| Aucune garantie que le code tenait ses promesses en conditions réelles | Suite de tests contre une **vraie base MySQL** (pas seulement des mocks) en CI, gitleaks, npm audit, build Docker — voir [`docs/CASE-STUDY.fr.md`](./docs/CASE-STUDY.fr.md) |
 
 ---
 
@@ -153,7 +157,7 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 
 - **147 fichiers de test**, unitaires *et* d'intégration contre une vraie base MySQL (pas seulement des mocks Sequelize) — la matrice d'autorisation multi-tenant, en particulier, ne pouvait être prouvée que contre un moteur SQL réel.
 - **Pipeline CI en 8 étapes** (GitHub Actions) : lint + vérification de types (JSDoc/`@ts-check` progressif), tests unitaires + d'intégration, tests client React, suites contre une vraie base MySQL/Redis, audit de sécurité npm, détection de secrets (gitleaks), build de l'image Docker de production, build du frontend.
-- Avant la mise en production, j'ai mené un **audit de production-readiness** du projet, qui a identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md)**.
+- Avant la mise en production, j'ai mené un **audit de production-readiness** du projet, qui a identifié 47 éléments de dette technique (6 critiques, 17 majeurs) — intégralement traités via un plan de remédiation en 5 phases. Le détail de cette démarche, avec les résultats chiffrés, fait l'objet d'un cas d'étude séparé : **[`docs/CASE-STUDY.fr.md`](./docs/CASE-STUDY.fr.md)**.
 
 ---
 
@@ -189,8 +193,8 @@ J'ai piloté l'architecture et l'audit : décisions structurantes, priorisation 
 
 ## 📚 Documentation complémentaire
 
-- [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) — la démarche d'audit et de remédiation production-readiness, en détail
-- [`docs/ARCHITECTURE-SAAS.md`](./docs/ARCHITECTURE-SAAS.md) — transformation SaaS multi-tenant : décisions d'architecture, modèle de facturation, sécurité plateforme
+- [`docs/CASE-STUDY.fr.md`](./docs/CASE-STUDY.fr.md) — la démarche d'audit et de remédiation production-readiness, en détail
+- [`docs/ARCHITECTURE-SAAS.fr.md`](./docs/ARCHITECTURE-SAAS.fr.md) — transformation SaaS multi-tenant : décisions d'architecture, modèle de facturation, sécurité plateforme
 
 ---
 
