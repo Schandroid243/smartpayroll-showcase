@@ -181,24 +181,6 @@ Le code source est privé. Voici l'organisation du dépôt principal, pour donne
 
 ---
 
-## 🚀 Démarrage rapide (développement)
-
-Commandes utilisées sur le dépôt principal (non incluses dans cette vitrine) :
-
-```bash
-npm ci                       # dépendances backend
-npm run client-install       # dépendances frontend
-
-npm run server                # API (nodemon, port par défaut)
-npm run worker                # consommateurs BullMQ (nécessite Redis)
-npm run client                 # frontend React (proxy vers l'API)
-
-npm test                      # suite de tests complète
-npm run lint                  # ESLint
-```
-
----
-
 ## 📚 Documentation complémentaire
 
 - [`docs/CASE-STUDY.md`](./docs/CASE-STUDY.md) — la démarche d'audit et de remédiation production-readiness, en détail
