@@ -159,6 +159,8 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 
 ## 📂 Structure du projet
 
+Le code source est privé. Voici l'organisation du dépôt principal, pour donner une idée du découpage :
+
 ```
 .
 ├── server.js / worker.js   # Points d'entrée : API HTTP / consommateurs BullMQ
@@ -180,6 +182,8 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 ---
 
 ## 🚀 Démarrage rapide (développement)
+
+Commandes utilisées sur le dépôt principal (non incluses dans cette vitrine) :
 
 ```bash
 npm ci                       # dépendances backend
