@@ -29,6 +29,15 @@
 
 ---
 
+## ⚡ En bref
+
+- **Produit réel, en production** : paie, présences et RH pour des entreprises en RDC, hébergé sur Railway.
+- **Migration on-premise → SaaS multi-tenant** : isolation par organisation résolue depuis le JWT, facturation par wallet prépayé rechargé par mobile money.
+- **Audit de production-readiness** : 47 dettes techniques identifiées (dont 6 critiques), toutes closes au terme d'un plan de remédiation en 5 phases.
+- **Tests contre une vraie base** : 147 fichiers de test, CI GitHub Actions en 8 étapes (MySQL/Redis réels, `npm audit`, gitleaks, build Docker).
+
+---
+
 ## 📖 À propos
 
 **SmartPayroll** automatise deux fonctions à haute friction pour une entreprise en RDC : **le suivi des présences** (avec preuve anti-fraude) et **le calcul de la paie** (avec la fiscalité locale — IPR à barème progressif, CNSS, ONEM, INPP). Le produit a démarré comme un logiciel **on-premise** distribué en binaire (licence chiffrée, MySQL portable) et a été **entièrement repensé en architecture SaaS multi-tenant** hébergée, avec facturation par mobile money — un choix dicté par la réalité du marché local (le prélèvement automatique récurrent n'y est pas fiable ; le mobile money fonctionne en paiement poussé, confirmé par le client à chaque transaction).
@@ -150,6 +159,8 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 
 ## 📂 Structure du projet
 
+Le code source est privé. Voici l'organisation du dépôt principal, pour donner une idée du découpage :
+
 ```
 .
 ├── server.js / worker.js   # Points d'entrée : API HTTP / consommateurs BullMQ
@@ -171,6 +182,8 @@ Quelques décisions qui, à mon sens, valent la peine d'être détaillées pour 
 ---
 
 ## 🚀 Démarrage rapide (développement)
+
+Commandes utilisées sur le dépôt principal (non incluses dans cette vitrine) :
 
 ```bash
 npm ci                       # dépendances backend

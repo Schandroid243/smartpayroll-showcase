@@ -67,3 +67,7 @@ Chacun de ces bugs a été diagnostiqué à partir des logs bruts de CI, corrig�
 - **Prioriser par risque réel, pas par facilité** — l'isolation multi-tenant (le chantier le plus lourd) a été traitée en Phase 0, avant les correctifs plus simples mais moins critiques.
 - **Ne jamais fusionner une découverte de CI sans la comprendre.** Chaque bug révélé par l'élargissement de la CI a été root-causé (pas seulement contourné) et documenté avec la raison pour laquelle il n'avait jamais été détecté avant.
 - **Une architecture SaaS se conçoit à partir des contraintes réelles du marché ciblé**, pas d'un modèle générique — le choix du wallet prépayé plutôt que du prélèvement automatique en est l'exemple le plus concret.
+
+---
+
+← [Retour au README](../README.md)
